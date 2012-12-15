@@ -1,0 +1,47 @@
+TURNTABLE_USER="turntable"
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+
+case "$1" in
+start)
+echo "Starting Firefox turntable session."
+  su $TURNTABLE_USER -c "xpra start :100"
+  su $TURNTABLE_USER -l -c "DISPLAY=:100 PULSE_SERVER=bluetooth.csh.rit.edu screen -d -m -S turntable_firefox firefox"
+;;
+stop)
+if su $TURNTABLE_USER -l -c "screen -ls |grep turntable_firefox"
+then
+     echo -n "Stopping turntable."
+	 su $TURNTABLE_USER -c "xpra stop :100"
+     su $TURNTABLE_USER -l -c "screen -S turntable_firefox  -X quit "
+    echo " ... done."
+else
+    echo "Couldn't find a running Firefox turntable session."
+fi
+;;
+restart)
+if su $TURNTABLE_USER -l -c "screen -ls |grep turntable_firefox"
+then
+     echo -n "Stopping Firefox turntable session."
+     su $TURNTABLE_USER -c "xpra stop :100"
+     su $TURNTABLE_USER -l -c "screen -S turntable_firefox  -X quit "
+     echo " ... done."
+else
+     echo "Couldn't find a running Firefox turntable session."
+fi
+echo -n "Starting Firefox turntable session."
+su $TURNTABLE_USER -c "xpra start :100"
+su $TURNTABLE_USER -l -c "DISPLAY=:100 PULSE_SERVER=bluetooth.csh.rit.edu screen -d -m -S turntable_firefox firefox"
+echo " ... done."
+;;
+status)
+# Check whether there's a "srcds" process
+ps aux | grep -v grep | grep firefox > /dev/null
+CHECK=$?
+[ $CHECK -eq 0 ] && echo "It's probably working." || echo "It aint working."
+;;
+*)
+echo "Usage: $0 {start|stop|status|restart}"
+exit 1
+;;
+esac
+exit 0
