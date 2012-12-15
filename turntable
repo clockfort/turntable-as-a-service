@@ -34,7 +34,6 @@ su $TURNTABLE_USER -l -c "DISPLAY=:100 PULSE_SERVER=bluetooth.csh.rit.edu screen
 echo " ... done."
 ;;
 status)
-# Check whether there's a "srcds" process
 ps aux | grep -v grep | grep firefox > /dev/null
 CHECK=$?
 [ $CHECK -eq 0 ] && echo "It's probably working." || echo "It aint working."
