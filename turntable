@@ -5,7 +5,7 @@ case "$1" in
 start)
 echo "Starting Firefox turntable session."
   su $TURNTABLE_USER -c "xpra start :100"
-  su $TURNTABLE_USER -l -c "DISPLAY=:100 PULSE_SERVER=bluetooth.csh.rit.edu screen -d -m -S turntable_firefox firefox"
+  su $TURNTABLE_USER -l -c "DISPLAY=:100 PULSE_SERVER=bluetooth.csh.rit.edu screen -d -m -S turntable_firefox firefox -width 64 -height 48"
 ;;
 stop)
 if su $TURNTABLE_USER -l -c "screen -ls |grep turntable_firefox"
@@ -30,7 +30,7 @@ else
 fi
 echo -n "Starting Firefox turntable session."
 su $TURNTABLE_USER -c "xpra start :100"
-su $TURNTABLE_USER -l -c "DISPLAY=:100 PULSE_SERVER=bluetooth.csh.rit.edu screen -d -m -S turntable_firefox firefox"
+su $TURNTABLE_USER -l -c "DISPLAY=:100 PULSE_SERVER=bluetooth.csh.rit.edu screen -d -m -S turntable_firefox firefox -width 64 -height 48"
 echo " ... done."
 ;;
 status)
