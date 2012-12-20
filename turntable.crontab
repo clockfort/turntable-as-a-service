@@ -1,0 +1,11 @@
+#Idle timeout on turntable :_(
+#Could be fixed with some client-side javascript magics, but I hate javascript.
+0 */3 * * * /usr/sbin/service turntable restart
+
+#Flash crashes sometimes. It's not... great.
+* * * * * /root/flash_watchdog.sh
+
+#Check to see how hot the box is.
+#Sensorsd/ACPI on the CPU aren't supported on this platform... but drive has SMART! Yay!
+*/30 * * * * echo "$(date) : $(hddtemp /dev/sda)" >> /root/temperature_log.txt
+
